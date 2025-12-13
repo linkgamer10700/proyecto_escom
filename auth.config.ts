@@ -15,7 +15,8 @@ export default {
           const { email, password } = validatedFields.data
 
           const user = await prisma.usuario.findUnique({
-            where: { correo: email }
+            where: { correo: email },
+            include: { rol: true }
           })
 
           if (!user || !user.contrasena) return null

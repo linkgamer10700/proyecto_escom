@@ -18,7 +18,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
         await signIn("credentials", {
             email,
             password,
-            redirectTo: "/dashboard", // Adjust as needed
+            redirect: false,
         });
     } catch (error) {
         if (error instanceof AuthError) {
@@ -31,6 +31,9 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
         }
         throw error;
     }
+
+    // Login exitoso, redirigimos manualmente
+    return { success: true, redirect: "/dashboard" };
 };
 
 export const loginAdmin = async (values: z.infer<typeof loginAdminSchema>) => {
@@ -46,7 +49,7 @@ export const loginAdmin = async (values: z.infer<typeof loginAdminSchema>) => {
         await signIn("credentials", {
             email,
             password,
-            redirectTo: "/admin/dashboard", // Adjust as needed
+            redirect: false,
         });
     } catch (error) {
         if (error instanceof AuthError) {
@@ -59,4 +62,9 @@ export const loginAdmin = async (values: z.infer<typeof loginAdminSchema>) => {
         }
         throw error;
     }
+
+    // Login exitoso, redirigimos manualmente
+    // Nota: No usamos redirect() aquí porque detenería la ejecución.
+    // Retornamos la URL para que el cliente redirija.
+    return { success: true, redirect: "/admin/dashboard" };
 };

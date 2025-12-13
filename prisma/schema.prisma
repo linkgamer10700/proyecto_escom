@@ -95,6 +95,7 @@ model Usuario {
   nombre           String    @db.VarChar(255)
   rolId            String
   departamentoId   String?
+  adminId          String?   // Admin que dio de alta a este usuario
   avatar           String?   @db.VarChar(255)
   telefono         String?   @db.VarChar(50)
   activo           Boolean   @default(true)
@@ -106,6 +107,7 @@ model Usuario {
   // Relaciones
   rol Rol @relation(fields: [rolId], references: [id])
   departamento Departamento? @relation(fields: [departamentoId], references: [id])
+  adminQueLoRegistro Usuario? @relation("AdminUsuarios", fields: [adminId], references: [id])
 
   // Relaciones inversas (para tickets, comentarios, historial, etc.)
   departamentosManejados Departamento[] @relation("ManagerDepartamento")
@@ -116,6 +118,7 @@ model Usuario {
   historialTickets HistorialTicket[]
   notificaciones Notificacion[]
   plantillasPlantillaRespuesta PlantillaRespuesta[]
+  usuariosRegistrados Usuario[] @relation("AdminUsuarios") // Usuarios que este admin registró
 }
 
 // Tabla de Categorías

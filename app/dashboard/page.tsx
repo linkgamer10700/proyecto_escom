@@ -1,20 +1,30 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { prisma } from "@/lib/db"
 
 export default async function DashboardPage() {
     const session = await auth()
 
-    if (!session) {
+    if (!session?.user?.id) {
         redirect("/login/loginUser")
     }
 
-    return (
-        <div className="p-8">
-            <h1 className="text-2xl font-bold mb-4">Dashboard de Usuario</h1>
-            <p>Bienvenido, {session.user?.name || session.user?.email}</p>
-            <div className="mt-4 p-4 border rounded bg-muted">
-                <pre>{JSON.stringify(session, null, 2)}</pre>
-            </div>
-        </div>
-    )
+    // Obtener el usuario completo con su rol
+    const usuario = await prisma.usuario.findUnique({
+        where: { id: session.user.id },
+        include: { rol: true }
+    })
+
+    if (!usuario) {
+        redirect("/login/loginUser")
+    }
+
+    // Redirigir según el rol
+    const rolNombre = usuario.rol.nombre.toLowerCase()
+
+    if (rolNombre === "admin" || rolNombre === "administrador") {
+        redirect("/admin/dashboard")
+    } else {
+        redirect("/user/dashboard")
+    }
 }

@@ -12,33 +12,63 @@
 
 # testing
 /coverage
+*.lcov
+.nyc_output/
 
 # next.js
 /.next/
 /out/
+next.config.js.mjs
+next-env.d.ts
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
 *.pem
+Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+logs
+*.log
+npm-audit.json
 
 # env files (can opt-in for committing if needed)
-.env*
-.env.local
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+
+# prisma
+/prisma/sqlite.db
+/prisma/sqlite.db-journal
+
+# local uploads
+/public/uploads
+/public/avatars
+
+# Generated
 /lib/generated/prisma

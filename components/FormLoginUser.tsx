@@ -42,6 +42,10 @@ const FormLoginUser = () => {
         if (data?.error) {
           setError(data.error);
         }
+
+        if (data?.success && data?.redirect) {
+          window.location.href = data.redirect;
+        }
       });
     });
   }
